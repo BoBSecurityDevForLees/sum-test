@@ -20,7 +20,7 @@ void write_4660() {
 	dump(&port, sizeof(port));
 }
 
-uint16_t myntohs(uint16_t n)
+uint16_t my_ntohs(uint16_t n)
 {
 	uint16_t t1 = (n & 0xff00) >> 8;
 	uint16_t t2 = (n & 0x00ff) << 8;
@@ -33,14 +33,15 @@ uint32_t my_ntohl(uint32_t n)
 	uint32_t t2 = (n & 0x0000ffff) << 16;
 	t1 = (t1 >>8) | (t1 << 8);
 	t2 = (t2 >>8) | (t2 <<8);
-	return t1 | t2;
+//	return t1 | t2;
+	return ((n >> 16) >>8) | ((n >> 16) << 8) | (( n << 16) >> 8) | ((n << 16) << 8);
 }
 
 
 void  write_0x1234() {
 	uint8_t network_buffer[] = { 0x12, 0x34 };
 	uint16_t* p = reinterpret_cast<uint16_t*>(network_buffer);
-	uint16_t n = myntohs(*p); // TODO
+	uint16_t n = my_ntohs(*p); // TODO
 	printf("16 bit number=0x%x\n", n);
 }
 
